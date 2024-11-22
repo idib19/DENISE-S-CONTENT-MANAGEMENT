@@ -6,9 +6,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Button } from "@/components/ui/button"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { Calendar } from "@/components/ui/calendar"
+import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
-import { CalendarIcon, Target, Rocket, Users, Info } from "lucide-react"
+import { CalendarIcon, Target, Users, Info } from "lucide-react"
 import { toast } from "sonner"
 import { FormSection } from "@/components/ui/form-section"
 import { ContentFormatSelector } from "@/components/content-format-selector"
@@ -17,7 +18,6 @@ import { createContentRecord } from "@/lib/airtable"
 const contentGoals = [
   { value: "Engagement", label: "Engagement", icon: Target },
   { value: "Recruiting", label: "Recruiting", icon: Users },
-  { value: "Promotion", label: "Promotion", icon: Rocket },
   { value: "Information", label: "Information", icon: Info }
 ]
 
@@ -27,14 +27,15 @@ export default function ContentCreatorForm() {
     contentFormat: "Video",
     contentGoal: "",
     startDate: undefined as Date | undefined,
-    endDate: undefined as Date | undefined
+    endDate: undefined as Date | undefined,
+    notes: ""
   })
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
     if (!formData.contentGoal || !formData.startDate || !formData.endDate) {
-      toast.error("Please fill in all fields")
+      toast.error("Please fill in all required fields")
       return
     }
 
@@ -42,10 +43,11 @@ export default function ContentCreatorForm() {
     
     try {
       await createContentRecord({
-        contentFormat: formData.contentFormat as 'Video' | 'Image' | 'Article' | 'Audio',
-        contentGoal: formData.contentGoal as 'Engagement' | 'Recruiting' | 'Promotion' | 'Information',
+        contentFormat: formData.contentFormat as 'Video' | 'Audio',
+        contentGoal: formData.contentGoal as 'Engagement' | 'Recruiting' | 'Information',
         startDate: format(formData.startDate, 'yyyy-MM-dd'),
-        endDate: format(formData.endDate, 'yyyy-MM-dd')
+        endDate: format(formData.endDate, 'yyyy-MM-dd'),
+        notes: formData.notes
       })
       
       toast.success("Content plan created successfully!")
@@ -55,7 +57,8 @@ export default function ContentCreatorForm() {
         contentFormat: "Video",
         contentGoal: "",
         startDate: undefined,
-        endDate: undefined
+        endDate: undefined,
+        notes: ""
       })
     } catch (error) {
       toast.error("Failed to create content plan. Please try again.")
@@ -152,6 +155,15 @@ export default function ContentCreatorForm() {
               </Popover>
             </FormSection>
           </div>
+
+          <FormSection title="Additional Notes">
+            <Textarea
+              placeholder="Add any additional notes or requirements..."
+              value={formData.notes}
+              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+              className="min-h-[100px] resize-y"
+            />
+          </FormSection>
 
           <Button type="submit" className="w-full" disabled={isSubmitting}>
             {isSubmitting ? "Creating..." : "Create Content Plan"}

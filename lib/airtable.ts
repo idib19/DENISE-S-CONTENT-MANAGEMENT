@@ -10,17 +10,18 @@ const base = new Airtable({ apiKey: process.env.NEXT_PUBLIC_AIRTABLE_API_KEY }).
 
 export const createContentRecord = async (data: ContentPlan) => {
   try {
-    const record = await base('Denise\'s content list').create([
+    const record = await base('tbl8KydHV6Mm1vTOE').create([
       {
         fields: {
-          'fld5stKnhUD3bnqMb': data.contentFormat,
-          'fldhOnvBtVVET0PY5': data.contentGoal,
-          'fldWHcQCLA0IpXTcS': data.startDate,
-          'fldkCLgTAIn9f8kUU': data.endDate,
-          'fldXgYfOSfVhtkP8K': 'Todo', // Default status for new records
+          'fld5stKnhUD3bnqMb': data.contentFormat,    // Content Format
+          'fldhOnvBtVVET0PY5': data.contentGoal,      // Content Goal
+          'fldWHcQCLA0IpXTcS': data.startDate,        // Start Date
+          'fldkCLgTAIn9f8kUU': data.endDate,          // End Date
+          'fldXgYfOSfVhtkP8K': 'Todo',                // Status
+          'fldt6kDu6loBkTRW3': data.notes             // Notes
         },
       },
-    ], { typecast: true }); // Enable typecast to handle single select options
+    ], { typecast: true });
 
     return record;
   } catch (error) {
@@ -30,8 +31,14 @@ export const createContentRecord = async (data: ContentPlan) => {
 };
 
 export type ContentPlan = {
-  contentFormat: 'Video' | 'Image' | 'Article' | 'Audio';
-  contentGoal: 'Engagement' | 'Recruiting' | 'Promotion' | 'Information';
+  contentFormat: 'Video' | 'Audio';
+  contentGoal: 'Engagement' | 'Recruiting' | 'Information';
   startDate: string;
   endDate: string;
+  notes: string;
 };
+
+// Validation constants based on Airtable documentation
+export const VALID_CONTENT_FORMATS = ['Video', 'Audio'] as const;
+export const VALID_CONTENT_GOALS = ['Engagement', 'Recruiting', 'Information'] as const;
+export const VALID_STATUS = ['Todo', 'In progress', 'Done'] as const;
