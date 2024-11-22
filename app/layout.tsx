@@ -16,7 +16,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <head>
+        <link rel="icon"  href="/denisefavicon.ico" />
+      </head>
+      <body>{children}</body>
     </html>
   );
 }
