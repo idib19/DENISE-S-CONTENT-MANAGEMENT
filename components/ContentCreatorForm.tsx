@@ -9,14 +9,14 @@ import { Calendar } from "@/components/ui/calendar"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
-import { CalendarIcon, Target, Users, Info } from "lucide-react"
+import { CalendarIcon, Target, Users, Info, Sparkles } from "lucide-react"
 import { toast } from "sonner"
 import { FormSection } from "@/components/ui/form-section"
 import { ContentFormatSelector } from "@/components/content-format-selector"
 import { createContentRecord } from "@/lib/airtable"
 
 const contentGoals = [
-  { value: "Engagement", label: "Engagement", icon: Target },
+  { value: "Engagement", label: "Engagement", icon: Sparkles },
   { value: "Recruiting", label: "Recruiting", icon: Users },
   { value: "Information", label: "Information", icon: Info }
 ]
@@ -52,7 +52,6 @@ export default function ContentCreatorForm() {
       
       toast.success("Content plan created successfully!")
       
-      // Reset form
       setFormData({
         contentFormat: "Video",
         contentGoal: "",
@@ -70,25 +69,25 @@ export default function ContentCreatorForm() {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Card className="border-2">
-        <CardHeader>
-          <CardTitle>New Content Plan</CardTitle>
-          <CardDescription>Create a new content plan for your media project</CardDescription>
+      <Card className="elegant-card overflow-hidden">
+        <CardHeader className="space-y-1 pb-8">
+          <CardTitle className="text-2xl font-display">New Content Plan</CardTitle>
+          <CardDescription className="font-light">Create a new content plan for your media project</CardDescription>
         </CardHeader>
         <CardContent className="space-y-8">
-          <FormSection title="Content Format">
+          <FormSection title="Content Format" titleClass="font-display">
             <ContentFormatSelector
               value={formData.contentFormat}
               onChange={(value) => setFormData({ ...formData, contentFormat: value })}
             />
           </FormSection>
 
-          <FormSection title="Content Goal">
+          <FormSection title="Content Goal" titleClass="font-display">
             <Select
               value={formData.contentGoal}
               onValueChange={(value) => setFormData({ ...formData, contentGoal: value })}
             >
-              <SelectTrigger>
+              <SelectTrigger className="bg-white/50 backdrop-blur-sm">
                 <SelectValue placeholder="Select a goal" />
               </SelectTrigger>
               <SelectContent>
@@ -105,13 +104,13 @@ export default function ContentCreatorForm() {
           </FormSection>
 
           <div className="grid gap-6 md:grid-cols-2">
-            <FormSection title="Start Date">
+            <FormSection title="Start Date" titleClass="font-display">
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
                     className={cn(
-                      "w-full justify-start text-left font-normal",
+                      "w-full justify-start text-left font-normal bg-white/50 backdrop-blur-sm",
                       !formData.startDate && "text-muted-foreground"
                     )}
                   >
@@ -125,18 +124,19 @@ export default function ContentCreatorForm() {
                     selected={formData.startDate}
                     onSelect={(date) => setFormData({ ...formData, startDate: date })}
                     initialFocus
+                    className="rounded-lg border-none shadow-lg"
                   />
                 </PopoverContent>
               </Popover>
             </FormSection>
 
-            <FormSection title="End Date">
+            <FormSection title="End Date" titleClass="font-display">
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
                     variant="outline"
                     className={cn(
-                      "w-full justify-start text-left font-normal",
+                      "w-full justify-start text-left font-normal bg-white/50 backdrop-blur-sm",
                       !formData.endDate && "text-muted-foreground"
                     )}
                   >
@@ -150,22 +150,27 @@ export default function ContentCreatorForm() {
                     selected={formData.endDate}
                     onSelect={(date) => setFormData({ ...formData, endDate: date })}
                     initialFocus
+                    className="rounded-lg border-none shadow-lg"
                   />
                 </PopoverContent>
               </Popover>
             </FormSection>
           </div>
 
-          <FormSection title="Additional Notes">
+          <FormSection title="Additional Notes" titleClass="font-display">
             <Textarea
               placeholder="Add any additional notes or requirements..."
               value={formData.notes}
               onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-              className="min-h-[100px] resize-y"
+              className="min-h-[100px] resize-y bg-white/50 backdrop-blur-sm"
             />
           </FormSection>
 
-          <Button type="submit" className="w-full" disabled={isSubmitting}>
+          <Button 
+            type="submit" 
+            className="w-full bg-primary/90 hover:bg-primary font-medium text-base py-6"
+            disabled={isSubmitting}
+          >
             {isSubmitting ? "Creating..." : "Create Content Plan"}
           </Button>
         </CardContent>
