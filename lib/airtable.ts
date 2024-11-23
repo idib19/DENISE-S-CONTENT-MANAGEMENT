@@ -31,7 +31,7 @@ export const createContentRecord = async (data: ContentPlan) => {
 };
 
 export type ContentPlan = {
-  contentFormat: 'Video' | 'Picture';
+  contentFormat: string;  // Changed from union type to string to allow custom formats
   contentGoal: 'Engagement' | 'Recruiting' | 'Information' | 'Promotion';
   startDate: string;
   endDate: string;

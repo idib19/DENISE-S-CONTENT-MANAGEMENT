@@ -40,11 +40,16 @@ export default function ContentCreatorForm() {
       return
     }
 
+    if (formData.contentFormat === "Other" || !formData.contentFormat.trim()) {
+      toast.error("Please specify a content format")
+      return
+    }
+
     setIsSubmitting(true)
     
     try {
       await createContentRecord({
-        contentFormat: formData.contentFormat as 'Video' | 'Picture',
+        contentFormat: formData.contentFormat,
         contentGoal: formData.contentGoal as 'Engagement' | 'Recruiting' | 'Information' | 'Promotion',
         startDate: format(formData.startDate, 'yyyy-MM-dd'),
         endDate: format(formData.endDate, 'yyyy-MM-dd'),
@@ -131,7 +136,7 @@ export default function ContentCreatorForm() {
               </Popover>
             </FormSection>
 
-            <FormSection title="End Date" titleClass="font-display">
+            <FormSection title="Target End Date" titleClass="font-display">
               <Popover>
                 <PopoverTrigger asChild>
                   <Button
