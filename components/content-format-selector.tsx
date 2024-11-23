@@ -1,6 +1,6 @@
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import { VideoIcon, MusicIcon } from "lucide-react"
+import { VideoIcon, ImageIcon } from "lucide-react"
 
 const contentFormats = [
   {
@@ -10,10 +10,10 @@ const contentFormats = [
     description: "Create engaging video content"
   },
   {
-    id: "Audio",
-    icon: MusicIcon,
-    label: "Audio",
-    description: "Produce audio content"
+    id: "Picture",
+    icon: ImageIcon,
+    label: "Picture/Infographic",
+    description: "Design visual content and infographics"
   }
 ]
 

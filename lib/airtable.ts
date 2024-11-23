@@ -31,14 +31,14 @@ export const createContentRecord = async (data: ContentPlan) => {
 };
 
 export type ContentPlan = {
-  contentFormat: 'Video' | 'Audio';
-  contentGoal: 'Engagement' | 'Recruiting' | 'Information';
+  contentFormat: 'Video' | 'Picture';
+  contentGoal: 'Engagement' | 'Recruiting' | 'Information' | 'Promotion';
   startDate: string;
   endDate: string;
   notes: string;
 };
 
 // Validation constants based on Airtable documentation
-export const VALID_CONTENT_FORMATS = ['Video', 'Audio'] as const;
-export const VALID_CONTENT_GOALS = ['Engagement', 'Recruiting', 'Information'] as const;
+export const VALID_CONTENT_FORMATS = ['Video', 'Picture'] as const;
+export const VALID_CONTENT_GOALS = ['Engagement', 'Recruiting', 'Information', 'Promotion'] as const;
 export const VALID_STATUS = ['Todo', 'In progress', 'Done'] as const;

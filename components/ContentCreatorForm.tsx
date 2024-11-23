@@ -9,7 +9,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
-import { CalendarIcon, Target, Users, Info, Sparkles } from "lucide-react"
+import { CalendarIcon, Target, Users, Info, Sparkles, Megaphone } from "lucide-react"
 import { toast } from "sonner"
 import { FormSection } from "@/components/ui/form-section"
 import { ContentFormatSelector } from "@/components/content-format-selector"
@@ -18,7 +18,8 @@ import { createContentRecord } from "@/lib/airtable"
 const contentGoals = [
   { value: "Engagement", label: "Engagement", icon: Sparkles },
   { value: "Recruiting", label: "Recruiting", icon: Users },
-  { value: "Information", label: "Information", icon: Info }
+  { value: "Information", label: "Information", icon: Info },
+  { value: "Promotion", label: "Promotion", icon: Megaphone }
 ]
 
 export default function ContentCreatorForm() {
@@ -43,8 +44,8 @@ export default function ContentCreatorForm() {
     
     try {
       await createContentRecord({
-        contentFormat: formData.contentFormat as 'Video' | 'Audio',
-        contentGoal: formData.contentGoal as 'Engagement' | 'Recruiting' | 'Information',
+        contentFormat: formData.contentFormat as 'Video' | 'Picture',
+        contentGoal: formData.contentGoal as 'Engagement' | 'Recruiting' | 'Information' | 'Promotion',
         startDate: format(formData.startDate, 'yyyy-MM-dd'),
         endDate: format(formData.endDate, 'yyyy-MM-dd'),
         notes: formData.notes
