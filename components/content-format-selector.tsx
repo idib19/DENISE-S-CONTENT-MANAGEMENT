@@ -14,7 +14,7 @@ const contentFormats = [
   {
     id: "Picture",
     icon: ImageIcon,
-    label: "Picture/Infographic",
+    label: "Image",
     description: "Design visual content and infographics"
   },
   {
