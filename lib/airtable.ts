@@ -15,7 +15,6 @@ export const createContentRecord = async (data: ContentPlan) => {
         fields: {
           'fld5stKnhUD3bnqMb': data.contentFormat,    // Content Format
           'fldhOnvBtVVET0PY5': data.contentGoal,      // Content Goal
-          'fldWHcQCLA0IpXTcS': data.startDate,        // Start Date
           'fldkCLgTAIn9f8kUU': data.endDate,          // End Date
           'fldXgYfOSfVhtkP8K': 'Todo',                // Status
           'fldt6kDu6loBkTRW3': data.notes             // Notes
@@ -31,9 +30,8 @@ export const createContentRecord = async (data: ContentPlan) => {
 };
 
 export type ContentPlan = {
-  contentFormat: string;  // Changed from union type to string to allow custom formats
+  contentFormat: string;
   contentGoal: 'Engagement' | 'Recruiting' | 'Information' | 'Promotion';
-  startDate: string;
   endDate: string;
   notes: string;
 };

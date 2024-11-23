@@ -9,7 +9,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 import { format } from "date-fns"
-import { CalendarIcon, Target, Users, Info, Sparkles, Megaphone } from "lucide-react"
+import { CalendarIcon, Users, Info, Sparkles, Megaphone } from "lucide-react"
 import { toast } from "sonner"
 import { FormSection } from "@/components/ui/form-section"
 import { ContentFormatSelector } from "@/components/content-format-selector"
@@ -27,7 +27,6 @@ export default function ContentCreatorForm() {
   const [formData, setFormData] = useState({
     contentFormat: "Video",
     contentGoal: "",
-    startDate: undefined as Date | undefined,
     endDate: undefined as Date | undefined,
     notes: ""
   })
@@ -35,7 +34,7 @@ export default function ContentCreatorForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (!formData.contentGoal || !formData.startDate || !formData.endDate) {
+    if (!formData.contentGoal || !formData.endDate) {
       toast.error("Please fill in all required fields")
       return
     }
@@ -51,7 +50,6 @@ export default function ContentCreatorForm() {
       await createContentRecord({
         contentFormat: formData.contentFormat,
         contentGoal: formData.contentGoal as 'Engagement' | 'Recruiting' | 'Information' | 'Promotion',
-        startDate: format(formData.startDate, 'yyyy-MM-dd'),
         endDate: format(formData.endDate, 'yyyy-MM-dd'),
         notes: formData.notes
       })
@@ -61,7 +59,6 @@ export default function ContentCreatorForm() {
       setFormData({
         contentFormat: "Video",
         contentGoal: "",
-        startDate: undefined,
         endDate: undefined,
         notes: ""
       })
@@ -109,59 +106,31 @@ export default function ContentCreatorForm() {
             </Select>
           </FormSection>
 
-          <div className="grid gap-6 md:grid-cols-2">
-            <FormSection title="Start Date" titleClass="font-display">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "w-full justify-start text-left font-normal bg-white/50 backdrop-blur-sm",
-                      !formData.startDate && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {formData.startDate ? format(formData.startDate, "PPP") : "Select date"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={formData.startDate}
-                    onSelect={(date) => setFormData({ ...formData, startDate: date })}
-                    initialFocus
-                    className="rounded-lg border-none shadow-lg"
-                  />
-                </PopoverContent>
-              </Popover>
-            </FormSection>
-
-            <FormSection title="Target End Date" titleClass="font-display">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className={cn(
-                      "w-full justify-start text-left font-normal bg-white/50 backdrop-blur-sm",
-                      !formData.endDate && "text-muted-foreground"
-                    )}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {formData.endDate ? format(formData.endDate, "PPP") : "Select date"}
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={formData.endDate}
-                    onSelect={(date) => setFormData({ ...formData, endDate: date })}
-                    initialFocus
-                    className="rounded-lg border-none shadow-lg"
-                  />
-                </PopoverContent>
-              </Popover>
-            </FormSection>
-          </div>
+          <FormSection title="Target Completion Date" titleClass="font-display">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="outline"
+                  className={cn(
+                    "w-full justify-start text-left font-normal bg-white/50 backdrop-blur-sm",
+                    !formData.endDate && "text-muted-foreground"
+                  )}
+                >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {formData.endDate ? format(formData.endDate, "PPP") : "Select target date"}
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={formData.endDate}
+                  onSelect={(date) => setFormData({ ...formData, endDate: date })}
+                  initialFocus
+                  className="rounded-lg border-none shadow-lg"
+                />
+              </PopoverContent>
+            </Popover>
+          </FormSection>
 
           <FormSection title="Additional Notes" titleClass="font-display">
             <Textarea
